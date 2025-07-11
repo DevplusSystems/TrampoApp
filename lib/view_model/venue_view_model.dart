@@ -41,8 +41,8 @@ class VenueViewModel extends BaseViewModel {
 
   Future<void> callCategoryList() async {
 
-    setLoading(true);
-    clearErrorMessage();
+    isLoading = true;
+    clearMessages();
 
     /*_categoryRepository.getCategoryList().then((catList) {
       setCategoryList(catList);
@@ -53,15 +53,16 @@ class VenueViewModel extends BaseViewModel {
       setCategoryList(catList);
     } catch (e) {
       if (e is AppException) {
-        setErrorMessage(e.toString());
+        errorMessage=e.toString();
         debugPrint("AppException: $e");
       } else {
-        setErrorMessage(AppConst.someThingWentWrong);
+       errorMessage =AppConst.someThingWentWrong;
         debugPrint("AppException: $e");
 
       }
     } finally {
-      setLoading(false);
+
+      isLoading = false;
     }
 
     notifyListeners();

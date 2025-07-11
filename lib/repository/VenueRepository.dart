@@ -1,11 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:trampoapp/models/venue_model.dart';
-import '../network/base_api_services.dart';
-import '../network/network_api_services.dart';
+import 'package:trampoapp/services/api_service.dart';
 
 class VenueRepository {
-  final BaseApiServices _baseApiServices = NetworkApiServices();
+  final ApiService _baseApiServices = ApiService();
 
   Future<List<VenueModel>> getCategoryList() async {
     List<VenueModel> categoryList = <VenueModel>[];

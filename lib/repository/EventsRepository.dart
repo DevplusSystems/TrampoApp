@@ -1,11 +1,11 @@
 
 
+import 'package:trampoapp/services/api_service.dart';
+
 import '../models/event_model.dart';
-import '../network/base_api_services.dart';
-import '../network/network_api_services.dart';
 
 class EventsRepository {
-  final BaseApiServices _baseApiServices = NetworkApiServices();
+  final ApiService _baseApiServices = ApiService();
 
   Future<List<EventModel>> getRecipeList(categoryId) async {
     List<EventModel> recipeList = <EventModel>[];

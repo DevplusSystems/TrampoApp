@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trampoapp/screens/sign_up_screen.dart';
 import 'package:trampoapp/values/colors.dart';
 import 'package:trampoapp/values/styles.dart';
 
+import '../utils/CustomButton.dart';
 import 'MainScreen.dart';
 import 'home_screen.dart';
 
@@ -17,7 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF2E9),
+      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
         child: Column(
@@ -32,13 +35,9 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            const Text(
+            Text(
               'WELCOME BACK 👋',
-              style: TextStyle(
-                fontSize: 22,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-              ),
+              style: textDarkW50016.copyWith(fontSize: 22.sp)
             ),
             const Text(
               'Enter your Credential or Login',
@@ -125,55 +124,29 @@ class LoginScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.orangeThemeColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      onPressed: () {
-                        /* if (_formKey.currentState!.validate()) {
-                          // Perform login
-                        }*/
-                      /*  Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );*/
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MainScreen(currentIndex: 0)));
-                      },
-
-                      child: Text(
-                        'SIGN IN',
-                        style: textWhiteW50016.copyWith(fontSize: 22),
-                      ),
-                    ),
+                  CustomButton(
+                    text: 'SIGN IN',
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => MainScreen(currentIndex: 0),
+                      ));
+                    },
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
             Row(
-              children: const [
-                Expanded(child: Divider(thickness: 1, color: AppColors.description)),
+              children: [
+                const Expanded(child: Divider(thickness: 1, color: AppColors.description)),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Or",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.description,
-                    ),
+                    style: textDescriptionW40014.copyWith(fontSize: 16),
                   ),
                 ),
-                Expanded(child: Divider(thickness: 1, color: AppColors.description)),
+                const Expanded(child: Divider(thickness: 1, color: AppColors.description)),
               ],
             ),
             const SizedBox(height: 20),
@@ -197,6 +170,8 @@ class LoginScreen extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   // Navigate to sign up screen
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => SignUpScreen()));
                 },
                 child: RichText(
                   text: TextSpan(

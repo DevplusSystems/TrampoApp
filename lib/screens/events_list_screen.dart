@@ -5,108 +5,56 @@ import '../dialog/dialog_helper.dart';
 import '../routes/RoutesName.dart';
 import '../view_model/events_view_model.dart';
 
-class EventsListScreen extends StatefulWidget {
+class EventsListScreen extends StatelessWidget {
   const EventsListScreen({super.key});
 
   @override
-  State<EventsListScreen> createState() => _EventsListScreenState();
-}
-
-class _EventsListScreenState extends State<EventsListScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final catVM = Provider.of<EventsViewModel>(context);
-    //
-    return WillPopScope(
-      onWillPop: () async {
-        // Confirm if the dialog appears on back press
-        bool shouldExit =
-            await DialogHelper.showExitConfirmationDialog(context);
-
-        // Only pop if the user confirms
-        return shouldExit;
-      },
-      child: Scaffold(
-        body: Center(
-          child: Container(
-            child: Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(height: 50),
-                const Text("Categories List"),
-                Expanded(
-                  child: SizedBox(
-                    height: double.infinity,
-                    child: catVM.isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : catVM.errorMessage.isNotEmpty
-                            ? Center(
-                                child: Text(
-                                  catVM.errorMessage,
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                              )
-                            : ListView.builder(
-                                itemCount: catVM.getCategoryList().length,
-                                itemBuilder: (context, index) {
-                                  return Material(
-                                    elevation: 20.0,
-                                    shadowColor: Colors.blueGrey,
-                                    child: ListTile(
-                                      onTap: () {
-                                      /*
-                                        Utils.showToast(
-                                            "Clicked ${catVM.getCategoryList()[index].id.toString()}");
-                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>RecipeListScreen(catId: 12)));
-                                       */
-                                        Navigator.pushNamed(
-                                            context, RoutesName.eventsDetailRoute,
-                                            arguments: {
-                                              "catId": catVM
-                                                  .getCategoryList()[index]
-                                                  .id
-                                                  .toString()
-                                            });
-                                      },
-                                      leading: Text(
-                                          "${catVM.getCategoryList()[index].id.toString()}-${catVM.getCategoryList()[index].title.toString()}"),
-                                      trailing: Text(catVM
-                                          .getCategoryList()[index]
-                                          .toString()),
-                                    ),
-                                  );
-                                }),
-                  ),
-                ),
-                Row(
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        catVM.callCategoryList();
-                      },
-                      child: const Text("Get Categories"),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {
-                        catVM.clearCategoryList();
-                      },
-                      child: const Text("Delete Categories"),
-                    ),
-                  ],
-                )
-              ],
-            )),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Events List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+             /* Navigator.pushNamed(context, RoutesName.addEvent).then((value) {
+                if (value == true) {
+                  // Refresh the list after adding a new event
+                  Provider.of<EventsViewModel>(context, listen: false).callCategoryList();
+                }
+              });*/
+            },
           ),
-        ),
+        ],
+      ),
+      body: Consumer<EventsViewModel>(
+        builder: (context, eventsVM, child) {
+          if (eventsVM.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (eventsVM.errorMessage != null) {
+            return Center(
+              child: Text(eventsVM.errorMessage!),
+            );
+          } else if (eventsVM.getCategoryList().isEmpty) {
+            return const Center(child: Text('No events found.'));
+          } else {
+            return ListView.builder(
+              itemCount: eventsVM.getCategoryList().length,
+              itemBuilder: (context, index) {
+                final event = eventsVM.getCategoryList()[index];
+                return ListTile(
+                  title: Text(event.title),
+                  subtitle: Text(event.title.toString()),
+                  onTap: () {
+/*
+                    Navigator.pushNamed(context, RoutesName.eventDetails, arguments: event);
+*/
+                  },
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

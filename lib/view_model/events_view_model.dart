@@ -14,6 +14,7 @@ class EventsViewModel extends BaseViewModel {
   List<EventModel> _categoryList = <EventModel>[];
 
   bool isDeleted=false;
+  @override
 
   setDeletedValue(bool delete){
     isDeleted = delete;
@@ -41,9 +42,7 @@ class EventsViewModel extends BaseViewModel {
 
   Future<void> callCategoryList() async {
 
-    setLoading(true);
-    clearErrorMessage();
-
+    isLoading =true;
     /*_categoryRepository.getCategoryList().then((catList) {
       setCategoryList(catList);
     });*/
@@ -53,15 +52,15 @@ class EventsViewModel extends BaseViewModel {
       setCategoryList(catList);
     } catch (e) {
       if (e is AppException) {
-        setErrorMessage(e.toString());
+        errorMessage =e.toString();
         debugPrint("AppException: $e");
       } else {
-        setErrorMessage(AppConst.someThingWentWrong);
+        errorMessage=AppConst.someThingWentWrong;
         debugPrint("AppException: $e");
 
       }
     } finally {
-      setLoading(false);
+      isLoading =false;
     }
 
     notifyListeners();

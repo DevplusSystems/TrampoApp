@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trampoapp/values/colors.dart';
-
-
 // Define styles here
 const TextStyle textDescriptionW40014 = TextStyle(
   fontSize: 14,
@@ -61,7 +59,7 @@ const TextStyle buttonTextStyle = TextStyle(
   color: Color(0xFF0C0C0C), // btn_text_color equivalent
   letterSpacing: 0.01,
   fontSize: 12.0,
-  fontFamily: 'Poppins-Regular',
+  fontFamily: 'Poppins',
 );
 
 final InputDecoration outlinedTextInputDecoration = InputDecoration(
